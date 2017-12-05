@@ -1,5 +1,5 @@
 from django.conf.urls import url
-
+#from mysite.core import views as core_views
 from . import views
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^top_albums/$', views.top_albums, name='top_albums'),
     url(r'^top_songs/$', views.top_songs, name='top_songs'),
     url(r'^about/$', views.about, name='about'),
+    url(r'^singup/$', views.signup, name='signup'),
 ]

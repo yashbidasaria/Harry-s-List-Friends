@@ -75,7 +75,6 @@ class RateAlbums(models.Model):
     Rater_User_ID = models.ForeignKey('Users')
     Owner_User_ID = models.ForeignKey('Users', on_delete=model.CASCADE)
     Name = models.ForeignKey('Album', on_delete=model.CASCADE_
-    Emoji = models.CharField()
     Stars = models.IntegerKey()
     Rate_Date = models.DateField()
     
@@ -86,7 +85,6 @@ class RateSongs(models.Model):
     Rate_Song_ID = models.IntegerField(primary_key = True)
     Rater_User_ID = models.ForeignKey('Users')
     Song_ID = models.ForeignKey('Song', on_delete=model.CASCADE_
-    Emoji = models.CharField()
     Stars = models.IntegerKey()
     Rate_Date = models.DateField()
     

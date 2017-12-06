@@ -71,7 +71,7 @@ CREATE TABLE Review (
 );
 
 CREATE TABLE RateAlbums (
-  Rate_Album_ID VARCHAR(30) NOT NULL,
+  Rate_Album_ID INTEGER NOT NULL,
   Rater_User_ID VARCHAR(30) NOT NULL,
   Owner_User_ID VARCHAR(30) NOT NULL,
   Name VARCHAR(30) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE RateAlbums (
 );
 
 CREATE TABLE RateSongs (
-  Rate_Song_ID VARCHAR(30) NOT NULL,
+  Rate_Song_ID INTEGER NOT NULL,
   Rater_User_ID VARCHAR(30) NOT NULL,
   Song_ID VARCHAR(30) NOT NULL,
   Stars INTEGER NOT NULL,

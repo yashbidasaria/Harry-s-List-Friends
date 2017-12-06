@@ -56,6 +56,16 @@
         </form>
       </div><!-- /.navbar-collapse -->
 	  </nav>
+		<div class="content container">
+			<div class="row">
+				<div class="col-md-8">
+					<p>test</p>
+					{% for s in song %}
+						<p>Song_ID: {{ s.Song_ID }} Song_Name: {{s.Name}} Plays: {{s.Plays}}</p>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
     {% block content %}
     {% endblock %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

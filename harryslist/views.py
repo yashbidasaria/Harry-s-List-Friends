@@ -7,12 +7,16 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import UserCreationForm
-
+from .models import Song
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    song = Song.objects.all()
+    l = [];
+    for p in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
+        l.append(p)
+    return render(request, 'index.html', {'song': l})
 
 def top_artists(request):
     return render(request, 'top_artists.html')

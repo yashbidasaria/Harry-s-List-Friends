@@ -7,25 +7,42 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Song
+from .models import Song, Album, Artist
 
 # Create your views here.
 
 def index(request):
-    song = Song.objects.all()
-    l = [];
-    for p in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
-        l.append(p)
-    return render(request, 'index.html', {'song': l})
+    #song = Song.objects.all()
+    #l = []
+	tuples = []
+    for t in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
+        tuples.append(t)
+    return render(request, 'index.html', {'song': t})
 
 def top_artists(request):
     return render(request, 'top_artists.html')
 
+def artists_otd(request):
+	return render(request, 'artists_otd.html')
+
 def top_albums(request):
+	tuples = []
+	for t in Album.objects.raw('Select '):
+		tuples.append(t)
     return render(request, 'top_albums.html')
 
 def top_songs(request):
-    return render(request, 'top_songs.html')
+	tuples = []
+	for t in Song.objects.raw('SELECT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars 
+							   FROM Song, Artist, RateSongs 
+							   WHERE RateSongs.stars = 5 
+							   AND 
+							   Song.Song_ID = RateSongs.Song_ID
+							   AND
+ 							   Artist.User_ID = Song.User_ID
+							   LIMIT 15'):
+		tuples.append(t)
+    return render(request, 'top_songs.html', {'song': t})
 
 def about(request):
     return render(request, 'about.html')

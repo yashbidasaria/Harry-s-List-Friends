@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Song, Album, Artist
+from django.db import connection
 
 # Create your views here.
 def index(request):
@@ -17,24 +18,27 @@ def index(request):
 	return render(request, 'index.html', {'song': tuples})
 
 def top_artists(request):
-    return render(request, 'top_artists.html')
+	cursor = connection.cursor()
+	cursor.execute('SELECT Artist.Name, Artist.Location FROM Artist WHERE Artist.User_ID IN (SELECT Song.User_ID FROM Song, RateSongs WHERE RateSongs.Stars = 5 and Song.Song_ID = RateSongs.Song_ID) AND Artist.User_ID IN (SELECT Owner_User_ID FROM RateAlbums WHERE Stars = 5) LIMIT 15')
+	tuples = cursor.fetchall()
+	return render(request, 'top_artists.html', {'artist': tuples})
 
 def artists_otd(request):
-	tuples = []
-	for t in Artist.objects.raw('SELECT Artist.User_ID, Artist.Name, Artist.Location FROM Artist ORDER BY RANDOM() LIMIT 15'):
-		tuples.append(t)
+	cursor = connection.cursor()
+	cursor.execute('SELECT Artist.Name, Artist.Location FROM Artist ORDER BY RANDOM() LIMIT 15')
+	tuples = cursor.fetchall()
 	return render(request, 'artists_otd.html', {'artist': tuples})
 
 def top_albums(request):
-	tuples = []
-	for t in Album.objects.raw('SELECT Album.User_ID, RateAlbums.Name, Artist.Name, RateAlbums.Stars FROM Album, Artist, RateAlbums WHERE RateAlbums.Stars = 5 AND Artist.User_ID = RateAlbums.Owner_User_ID LIMIT 15'):
-		tuples.append(t)
-	return render(request, 'top_albums.html')
+	cursor = connection.cursor()
+	cursor.execute('SELECT Album.Name, Artist.Name, RateAlbums.Stars FROM Album, Artist, RateAlbums WHERE RateAlbums.Stars = 5 AND Artist.User_ID = RateAlbums.Owner_User_ID AND Album.USER_ID = Artist.User_ID LIMIT 15')
+	tuples = cursor.fetchall()
+	return render(request, 'top_albums.html', {'album': tuples})
 
 def top_songs(request):
-	tuples = []
-	for t in Song.objects.raw('SELECT Song.Song_ID, Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars FROM Song, Artist, RateSongs WHERE RateSongs.stars = 5 AND Song.Song_ID = RateSongs.Song_ID AND Artist.User_ID = Song.User_ID LIMIT 15'):
-		tuples.append(t)
+	cursor = connection.cursor()
+	cursor.execute('SELECT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars FROM Song, Artist, RateSongs WHERE RateSongs.stars = 5 AND Song.Song_ID = RateSongs.Song_ID AND Artist.User_ID = Song.User_ID LIMIT 15')
+	tuples = cursor.fetchall()
 	return render(request, 'top_songs.html', {'song': tuples})
 
 def about(request):

@@ -2,4 +2,24 @@
 
 {% block content %}
 <h1>Browse our top songs</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Song Name</th>
+      <th scope="col">Album Name</th>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Stars</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in song %}
+    <tr>
+      <td>{{ r.0 }}</td>
+      <td>{{ r.1 }}</td>
+      <td>{{ r.2 }}</td>
+      <td>{{ r.3 }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

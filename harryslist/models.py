@@ -49,7 +49,7 @@ class Song(models.Model):
         db_table = 'Song'
 
 class Album(models.Model):
-    User_ID = models.ForeignKey('Users', on_delete=models.CASCADE)
+    User_ID = models.ForeignKey('Artist', on_delete=models.CASCADE)
     Name = models.CharField(max_length=32)
     Year = models.IntegerField()
 
@@ -79,7 +79,7 @@ class Review(models.Model):
 
 class RateAlbums(models.Model):
     Rate_Album_ID = models.IntegerField(primary_key = True)
-    Rater_User_ID = models.ForeignKey('Users')
+    Rater_User_ID = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
     Owner_User_ID = models.ForeignKey('Artist', on_delete=models.CASCADE)
     Name = models.ForeignKey('Album', on_delete=models.CASCADE)
     Stars = models.IntegerField()
@@ -90,7 +90,7 @@ class RateAlbums(models.Model):
 
 class RateSongs(models.Model):
     Rate_Song_ID = models.IntegerField(primary_key = True)
-    Rater_User_ID = models.ForeignKey('Users')
+    Rater_User_ID = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
     Song_ID = models.ForeignKey('Song', on_delete=models.CASCADE)
     Stars = models.IntegerField()
     Rate_Date = models.DateField()

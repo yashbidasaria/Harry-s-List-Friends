@@ -41,6 +41,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="{% url 'top_artists' %}" >Top Artists</a></li>
+          <li><a href="{% url 'artists_otd' %}" >Artists of the Day</a></li>
           <li><a href= "{% url 'top_albums' %}" >Top Albums</a></li>
           <li><a href= "{% url 'top_songs' %}" >Top Songs</a></li>
           <li><a href= "{% url 'about' %}" >About Supreme Leader Harry</a></li>
@@ -59,10 +60,6 @@
 		<div class="content container">
 			<div class="row">
 				<div class="col-md-8">
-					<p>test</p>
-					{% for s in song %}
-						<p>Song_ID: {{ s.Song_ID }} Song_Name: {{s.Name}} Plays: {{s.Plays}}</p>
-					{% endfor %}
 				</div>
 			</div>
 		</div>

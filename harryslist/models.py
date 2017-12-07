@@ -2,18 +2,25 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
 class Users(models.Model):
-    User_ID = models.CharField(max_length= 32, primary_key = True)
-    Email = models.CharField(max_length=32)
-    Name = models.CharField(max_length=32)
-    Password = models.CharField(max_length=32)
-    Is_Artist = models.IntegerField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #User_ID = models.CharField(max_length= 32, primary_key = True)
 
     class meta:
         db_table = 'Users'
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Users.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.users.save()
 
 class Basic(models.Model):
     User_ID = models.ForeignKey('Users',on_delete=models.CASCADE)

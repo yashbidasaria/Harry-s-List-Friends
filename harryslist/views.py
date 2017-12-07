@@ -17,32 +17,28 @@ def index(request):
 	tuples = []
     for t in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
         tuples.append(t)
-    return render(request, 'index.html', {'song': t})
+    return render(request, 'index.html', {'song': tuples})
 
 def top_artists(request):
     return render(request, 'top_artists.html')
 
 def artists_otd(request):
-	return render(request, 'artists_otd.html')
+	tuples = []
+	for t in Artist.objects.raw('SELECT Artist.User_ID, Artist.Name, Artist.Location FROM Artist ORDER BY RANDOM() LIMIT 15'):
+		tuples.append(t)
+	return render(request, 'artists_otd.html', {'artist': tuples})
 
 def top_albums(request):
 	tuples = []
-	for t in Album.objects.raw('Select '):
+	for t in Album.objects.raw('SELECT Album.User_ID, RateAlbums.Name, Artist.Name, RateAlbums.Stars FROM Album, Artist, RateAlbums WHERE RateAlbums.Stars = 5 AND Artist.User_ID = RateAlbums.Owner_User_ID LIMIT 15'):
 		tuples.append(t)
-    return render(request, 'top_albums.html')
+    return render(request, 'top_albums.html', {'album': tuples})
 
 def top_songs(request):
 	tuples = []
-	for t in Song.objects.raw('SELECT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars 
-							   FROM Song, Artist, RateSongs 
-							   WHERE RateSongs.stars = 5 
-							   AND 
-							   Song.Song_ID = RateSongs.Song_ID
-							   AND
- 							   Artist.User_ID = Song.User_ID
-							   LIMIT 15'):
+	for t in Song.objects.raw('SELECT Song.Song_ID, Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars FROM Song, Artist, RateSongs WHERE RateSongs.stars = 5 AND Song.Song_ID = RateSongs.Song_ID AND Artist.User_ID = Song.User_ID LIMIT 15'):
 		tuples.append(t)
-    return render(request, 'top_songs.html', {'song': t})
+    return render(request, 'top_songs.html', {'song': tuples})
 
 def about(request):
     return render(request, 'about.html')

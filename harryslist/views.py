@@ -12,9 +12,9 @@ from .models import Song, Album, Artist
 # Create your views here.
 def index(request):
 	tuples = []
-  for t in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
-      tuples.append(t)
-  return render(request, 'index.html', {'song': tuples})
+	for t in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
+		tuples.append(t)
+	return render(request, 'index.html', {'song': tuples})
 
 def top_artists(request):
     return render(request, 'top_artists.html')
@@ -35,7 +35,7 @@ def top_songs(request):
 	tuples = []
 	for t in Song.objects.raw('SELECT Song.Song_ID, Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars FROM Song, Artist, RateSongs WHERE RateSongs.stars = 5 AND Song.Song_ID = RateSongs.Song_ID AND Artist.User_ID = Song.User_ID LIMIT 15'):
 		tuples.append(t)
-    return render(request, 'top_songs.html', {'song': tuples})
+	return render(request, 'top_songs.html', {'song': tuples})
 
 def about(request):
     return render(request, 'about.html')

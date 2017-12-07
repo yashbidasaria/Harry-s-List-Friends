@@ -68,7 +68,7 @@ class Admin(models.Model):
 class Review(models.Model):
     Review_ID = models.IntegerField(primary_key = True)
     Song_ID = models.ForeignKey('Song', on_delete=models.CASCADE)
-    Admin_ID = models.ForeignKey('Admin')
+    Admin_ID = models.ForeignKey('Admin', on_delete=models.DO_NOTHING)
     Deleted = models.IntegerField()
     Reviewed = models.IntegerField()
     Flagged_Date = models.DateField()

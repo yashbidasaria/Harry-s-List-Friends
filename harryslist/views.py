@@ -57,3 +57,24 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+def search(request):
+	if request.method == 'GET': # this will be GET now
+		search_input =  request.GET['q'] # do some research what it does
+		#print(str(song_name))
+		cursor = connection.cursor()
+		query = "SELECT DISTINCT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars FROM Song, Artist, RateSongs WHERE Song.User_ID=Artist.User_ID AND Song.Song_ID = RateSongs.Song_ID AND Song.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		cursor.execute(query)
+		song_tuples = cursor.fetchall()
+
+		query = "SELECT DISTINCT Artist.Name, Artist.Location FROM Artist WHERE Artist.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		cursor.execute(query)
+		artist_tuples = cursor.fetchall()
+
+		query = "SELECT DISTINCT Album.Name, Artist.Name, RateAlbums.Stars FROM Album, Artist, RateAlbums WHERE Album.User_ID=Artist.User_ID AND Album.User_ID = RateAlbums.Owner_User_ID AND Album.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		cursor.execute(query)
+		album_tuples = cursor.fetchall()
+		#print(tuples)
+		return render(request,"search.html",{"song":song_tuples, "artists":artist_tuples, "albums":album_tuples })
+	else:
+		return render(request,"search.html",{})

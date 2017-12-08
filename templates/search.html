@@ -1,0 +1,70 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+
+<h2>Supreme Leader Adel has found what you're looking for and rendered it nicely for you ...</h2>
+<br>
+<h4>Artist</h4>
+<table id ="tables" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Location</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in artists %}
+    <tr>
+      <td>{{ r.0 }}</td>
+      <td>{{ r.1 }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<br>
+<h4>Songs</h4>
+<table id="tables" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Song Name</th>
+      <th scope="col">Album Name</th>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Stars</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in song %}
+    <tr>
+      <td>{{ r.0 }}</td>
+      <td>{{ r.1 }}</td>
+      <td>{{ r.2 }}</td>
+      <td>{{ r.3 }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<br>
+<h4>Albums</h4>
+<table id="tables" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Album Name</th>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Stars</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in albums %}
+    <tr>
+      <td>{{ r.0 }}</td>
+      <td>{{ r.1 }}</td>
+      <td>{{ r.2 }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

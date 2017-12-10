@@ -59,7 +59,6 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 def search(request):
-<<<<<<< HEAD
 	if request.method == 'GET': # this will be GET now
 		search_input =  request.GET['q'] # do some research what it does
 		#print(str(song_name))
@@ -79,12 +78,3 @@ def search(request):
 		return render(request,"search.html",{"song":song_tuples, "artists":artist_tuples, "albums":album_tuples })
 	else:
 		return render(request,"search.html",{})
-=======
-    if request.method == 'GET': # this will be GET now
-        song_name =  request.GET.get('search') # do some research what it does
-        try:
-            status = Song.objects.filter(bookname__icontains=song_name) # filter returns a list so you might consider skip except part
-        return render(request,"search.html",{"books":status})
-    else:
-        return render(request,"search.html",{})
->>>>>>> 06c76d262a340ff95d4e035bd0625579988a5e8d

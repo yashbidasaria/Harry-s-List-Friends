@@ -1,5 +1,6 @@
+import datetime
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
 from django import forms
 from django.contrib.auth.models import User
@@ -63,7 +64,7 @@ def search(request):
 		search_input =  request.GET['q'] # do some research what it does
 		#print(str(song_name))
 		cursor = connection.cursor()
-		query = "SELECT DISTINCT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars FROM Song, Artist, RateSongs WHERE Song.User_ID=Artist.User_ID AND Song.Song_ID = RateSongs.Song_ID AND Song.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		query = "SELECT DISTINCT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars, Song.Song_ID FROM Song, Artist, RateSongs WHERE Song.User_ID=Artist.User_ID AND Song.Song_ID = RateSongs.Song_ID AND Song.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
 		cursor.execute(query)
 		song_tuples = cursor.fetchall()
 
@@ -78,3 +79,30 @@ def search(request):
 		return render(request,"search.html",{"song":song_tuples, "artists":artist_tuples, "albums":album_tuples })
 	else:
 		return render(request,"search.html",{})
+
+def flag_song(request):
+	if request.method == 'GET':
+		song_id = request.GET['song_id']
+		print(song_id)
+		cursor = connection.cursor()
+		query = "SELECT * FROM Review WHERE Song_ID="+ "'" + str(song_id) + "'"
+		cursor.execute(query)
+		tuples = cursor.fetchall()
+		print(tuples)
+		if len(tuples) == 0:
+			# case where we add to reviewed table
+			review_tuple = (str(song_id), str(0), str(0), str(datetime.datetime.now()))
+			new_query = "INSERT INTO Review (Song_ID, Deleted, Reviewed, Flagged_Date) Values ( "+"'"+song_id+"',"+str(0)+","+str(0)+ ",'"+ str(datetime.datetime.now()) + "')"
+			print (new_query)
+			cursor.execute(new_query)
+
+			data = {
+				'exists': 0
+			}
+			return JsonResponse(data)
+		else:
+			data = {
+				'exists': 1,
+				'error': "Song is already flagged"
+			}
+			return JsonResponse(data)

@@ -2,7 +2,10 @@
 {% load staticfiles %}
 
 {% block content %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'js/javascript.js' %}"></script>
 
 <h2>Supreme Leader Adel has found what you're looking for and rendered it nicely for you ...</h2>
 <br>
@@ -32,6 +35,7 @@
       <th scope="col">Album Name</th>
       <th scope="col">Artist Name</th>
       <th scope="col">Stars</th>
+      <th scope="col">Flag</th>
     </tr>
   </thead>
   <tbody>
@@ -41,6 +45,7 @@
       <td>{{ r.1 }}</td>
       <td>{{ r.2 }}</td>
       <td>{{ r.3 }}</td>
+      <td><input type="button" value="flag" class="flagged" song_id="{{r.4}}" id="{{r.3}}"></input></td>
     </tr>
   {% endfor %}
   </tbody>

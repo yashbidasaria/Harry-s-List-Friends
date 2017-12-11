@@ -16,7 +16,10 @@ def index(request):
 	tuples = []
 	for t in Song.objects.raw('Select Song_ID, Name, Plays from Song'):
 		tuples.append(t)
-	return render(request, 'index.html', {'song': tuples})
+	return render(request, 'homepage.html', {'song': tuples})
+
+def homepage(request):
+	return render(request, 'homepage.html')
 
 def top_artists(request):
 	cursor = connection.cursor()

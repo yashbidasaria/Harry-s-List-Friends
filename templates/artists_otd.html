@@ -1,6 +1,8 @@
 {% extends 'index.html' %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
 <h1>Browse our artists of the day</h1>
 <table class="table table-striped">
   <thead>
@@ -18,4 +20,7 @@
   {% endfor %}
   </tbody>
 </table>
+{% else %}
+<a href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
+{% endif %}
 {% endblock %}

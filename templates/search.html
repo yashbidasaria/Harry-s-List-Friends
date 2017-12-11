@@ -33,58 +33,60 @@
   </table>
 </div>
 <br>
-<h2>Songs</h2>
-<div class="table-background">
-  <table id="tables" class="table">
-    <thead>
-      <tr>
-        <th scope="col">Song Name</th>
-        <th scope="col">Album Name</th>
-        <th scope="col">Artist Name</th>
-        <th scope="col">Stars</th>
-        <th scope="col">Rate</th>
-        <th scope="col">Flag</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for r in song %}
-      <tr>
-        <td>{{ r.0 }}</td>
-        <td>{{ r.1 }}</td>
-        <td>{{ r.2 }}</td>
-        <td>{{ r.3 }}</td>
-        <td>
-          <input type="number" value="0" min="0" max="5" class="rater_box" song_id="{{r.4}}" id="{{r.3}}"></input>
-          <input type="button" value="rate" class="rater btn-info" song_id="{{r.4}}" id="{{r.3}}"></input>
-        </td>
-        <td><input type="button" value="flag" class="flagged btn-danger" song_id="{{r.4}}" id="{{r.3}}"></input></td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
+<h4>Songs</h4>
+<table id="tables" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Song Name</th>
+      <th scope="col">Album Name</th>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Stars</th>
+      <th scope="col">Rate</th>
+      <th scope="col">Flag</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in song %}
+    <tr>
+      <td>{{ r.0 }}</td>
+      <td>{{ r.1 }}</td>
+      <td>{{ r.2 }}</td>
+      <td>{{ r.3 }}</td>
+      <td>
+        <input type="number" value="0" min="0" max="5" class="rater_box" song_id="{{r.4}}" id="{{r.3}}"></input>
+        <input type="button" value="rate" class="rater_song" song_id="{{r.4}}" id="{{r.3}}"></input>
+      </td>
+      <td><input type="button" value="flag" class="flagged" song_id="{{r.4}}" id="{{r.3}}"></input></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 <br>
-<h2>Albums</h2>
-<div class="table-background">
-  <table id="tables" class="table">
-    <thead>
-      <tr>
-        <th scope="col">Album Name</th>
-        <th scope="col">Artist Name</th>
-        <th scope="col">Stars</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for r in albums %}
-      <tr>
-        <td>{{ r.0 }}</td>
-        <td>{{ r.1 }}</td>
-        <td>{{ r.2 }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
+<h4>Albums</h4>
+<table id="tables" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Album Name</th>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Stars</th>
+      <th scope="col">Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in albums %}
+    <tr>
+      <td>{{ r.0 }}</td>
+      <td>{{ r.1 }}</td>
+      <td>{{ r.2 }}</td>
+      <td>
+        <input type="number" value="0" min="0" max="5" class="rater_box" album_name="{{r.0}}" artist_id="{{r.3}}"></input>
+        <input type="button" value="rate" class="rater_album" song_id="{{r.4}}" ></input>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
 
 {% else %}
 <a class="login-message" href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>

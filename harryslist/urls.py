@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^top_songs/$', views.top_songs, name='top_songs'),
     url(r'^search/$', views.search, name='search'),
     url(r'^about/$', views.about, name='about'),
+    url(r'^upload/csv/$', views.upload_csv, name='upload_csv'),
     url(r'^signup/$', core_views.signup, name='signup'),
     url(r'^ajax/flag_song/$', views.flag_song, name='flag_song'),
     url(r'^ajax/rate_song/$', views.rate_song, name='rate_song'),
+    url(r'^ajax/rate_album/$', views.rate_album, name='rate_album')
 ]

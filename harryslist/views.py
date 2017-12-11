@@ -1,4 +1,5 @@
 import datetime
+import pandas
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
@@ -157,3 +158,71 @@ def rate_album(request):
 				'error': "You have already rated this album."
 			}
 			return JsonResponse(data)
+
+def upload_csv(request):
+	data = {}
+	if "GET" == request.method:
+		return render(request, "upload_csv.html", data)
+	try:
+		csv_file = request.FILES["csv_file"]
+		if not csv_file.name.endswith('.csv'):
+			messages.error(request,'File is not CSV type')
+			return HttpResponseRedirect(reverse("upload_csv"))
+        #if file is too large, return
+		if csv_file.multiple_chunks():
+			messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+			return HttpResponseRedirect(reverse("upload_csv"))
+
+		df = pandas.read_csv(csv_file, encoding = "latin1")
+
+        #lines = file_data.split("\n")
+
+		# need to change this to insert into db instead
+		for i in len(df.index):
+	        # get songID and userID
+			songID = df['SongID'][i]
+			artistID = df['ArtistID'][i]
+			# get song, album and artist names
+			songName = df['Title'][i]
+			artistName = df['ArtistName'][i]
+			albumName = df['AlbumName'][i]
+			# get artist location
+			location = df['ArtistLocation'][i]
+			# get year made
+			year = df['Year'][i]
+			plays = 20*(i%5 + 1)
+			# insert into song, artist and album tables
+			song_tuple = (songID, artistID, albumName, songName, plays)
+			artist_tuple = (artistID, artistName, location)
+			album_tuple = (artistID, albumName, int(year))
+			rateAlbums_tuple = (artistID, artistID, albumName, 5, datetime.datetime.now(), albumName)
+			rateSongs_tuple = (artistID, songID, 5, datetime.datetime.now())
+			# song
+			c.execute('INSERT OR IGNORE INTO Song (Song_ID, User_ID, Album_Name, Name, Plays) VALUES (?, ?, ?, ?, ?)', song_tuple)
+			# artist
+			c.execute('INSERT OR IGNORE INTO Artist (User_ID, Name, Location) VALUES (?, ?, ?)', artist_tuple)
+			# album
+			#c.execute('INSERT OR IGNORE INTO Album (User_ID, Name, Year) VALUES (?, ?, ?)', album_tuple)
+			query = "INSERT INTO Album (User_ID, Name, Year) SELECT "+"'"+artistID+"','"+albumName+"',"+str(year)+ " WHERE NOT EXISTS (SELECT 1 FROM Album WHERE Name = '"+albumName+"')"
+			c.execute(query)
+			# rate song
+			c.execute('INSERT OR IGNORE INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES (?,?,?,?)', rateSongs_tuple)
+			# rate album
+			query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) SELECT "+"'"+artistID+"','"+artistID+"','"+albumName+"',"+str(5)+",'"+str(datetime.datetime.now())+ "' WHERE NOT EXISTS (SELECT 1 FROM RateAlbums WHERE Name = '"+albumName+"')"
+			c.execute(query)
+
+			try:
+				form = EventsForm(data_dict)
+				if form.is_valid():
+					form.save()
+				else:
+					logging.getLogger("error_logger").error(form.errors.as_json())
+			except Exception as e:
+				logging.getLogger("error_logger").error(form.errors.as_json())
+				pass
+
+	except Exception as e:
+		logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
+		messages.error(request,"Unable to upload file. "+repr(e))
+
+	return HttpResponseRedirect(reverse("upload_csv"))

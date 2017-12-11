@@ -49,10 +49,12 @@
           <li><a href= "{% url 'logout' %}" >logout</a></li>
           <li><a href= "{% url 'signup' %}" >signup</a></li>
         </ul>
-        <form method ="get" action="/search/"class="navbar-form navbar-left" role="search">
-          <input type="text" id="searchBox" name = "q" placeholder="Search"> </input>
-          <button value="Search" type="text" class="btn btn-default">Submit</button>
-        </form>
+        <div id="search-bar">
+          <form method ="get" action="/search/"class="navbar-form navbar-left" role="search">
+            <input type="text" class="form-control" id="searchBox" name = "q" placeholder="Search"> </input>
+            <button value="Search" type="text" class="btn btn-default">Submit</button>
+          </form>
+        </div>
       </div><!-- /.navbar-collapse -->
 	  </nav>
 		<div class="content container">

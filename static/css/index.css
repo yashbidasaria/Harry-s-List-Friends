@@ -1,9 +1,98 @@
-h1 {
-      color: #FCA205;
+h1, h2, h3, h4, h5 {
+    color: #595d63;
+    text-align: center;
 }
 
-#tables {
-  #TODO
-  overflow-y: scroll;
-  height: 20px;
+
+/* pull search bar to right side of nav*/
+
+#search-bar {
+  float: right;
+
+}
+
+/* format all tables */
+
+.table {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.table-background {
+  background-color: #b0b3b7;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-collapse:separate;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+
+/* center login form */
+.login {
+  text-align: center;
+}
+.login-background {
+  background-color: #b0b3b7;
+  width: 40%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  margin-top: 5%;
+  margin-left: 30%;
+  margin-right: 30%;
+  border-collapse:separate;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+/* center signup form */
+.signup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.signup-text {
+  text-align: center;
+  font-size: 3.0em;
+}
+
+.signup-background {
+  background-color: #b0b3b7;
+  width: 50%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-right: 25%;
+  border-collapse:separate;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+/* center logout message */
+.logout {
+  text-align: center;
+  font-size: 3.0em;
+}
+
+/* center must login message*/
+.login-message {
+  font-size: 3.0em;
 }

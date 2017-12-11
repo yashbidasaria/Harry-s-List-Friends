@@ -1,10 +1,14 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
+<div class="signup-background">
+<h2 class="signup-text">Sign up</h2>
+  <div class="signup">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn-default" type="submit">Sign up</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

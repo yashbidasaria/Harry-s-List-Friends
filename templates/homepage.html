@@ -2,10 +2,9 @@
 {% block content %}
 {% if user.is_authenticated %}
 <h1 class="title">Welcome to Harry's List</h1>
-<h1 class="title">Can display every table on this page ?</h1>
+<h1 class="title"></h1>
 {% else %}
-<a href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
+<a class="login-message" href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
 {% endif %}
-
 
 {% endblock %}

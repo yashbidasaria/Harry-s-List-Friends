@@ -106,3 +106,30 @@ def flag_song(request):
 				'error': "Song is already flagged"
 			}
 			return JsonResponse(data)
+
+def rate_song(request):
+	if request.method == 'GET':
+		song_id = request.GET['song_id']
+		rating = request.GET['rating']
+		userid = User.objects.get(username=request.user).pk
+		cursor = connection.cursor()
+		query = "SELECT * FROM RateSongs WHERE Song_ID="+ "'" + str(song_id) + "'" + "AND Rater_User_ID=" +  "'" + str(userid) + "'"
+		cursor.execute(query)
+		tuples = cursor.fetchall()
+		if len(tuples) == 0:
+			# case where user hasn't rated yet so insert into table
+			review_tuple = (str(song_id), str(0), str(0), str(datetime.datetime.now()))
+			new_query = "INSERT INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) Values ( "+"'"+str(userid)+"','"+str(song_id)+"',"+str(rating)+ ",'"+ str(datetime.datetime.now()) + "')"
+			print (new_query)
+			cursor.execute(new_query)
+
+			data = {
+				'exists': 0
+			}
+			return JsonResponse(data)
+		else:
+			data = {
+				'exists': 1,
+				'error': "You have already rated the song!!!!!!!"
+			}
+			return JsonResponse(data)

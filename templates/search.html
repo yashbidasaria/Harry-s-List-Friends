@@ -35,6 +35,7 @@
       <th scope="col">Album Name</th>
       <th scope="col">Artist Name</th>
       <th scope="col">Stars</th>
+      <th scope="col">Rate</th>
       <th scope="col">Flag</th>
     </tr>
   </thead>
@@ -45,6 +46,10 @@
       <td>{{ r.1 }}</td>
       <td>{{ r.2 }}</td>
       <td>{{ r.3 }}</td>
+      <td>
+        <input type="number" value="0" min="0" max="5" class="rater_box" song_id="{{r.4}}" id="{{r.3}}"></input>
+        <input type="button" value="rate" class="rater" song_id="{{r.4}}" id="{{r.3}}"></input>
+      </td>
       <td><input type="button" value="flag" class="flagged" song_id="{{r.4}}" id="{{r.3}}"></input></td>
     </tr>
   {% endfor %}

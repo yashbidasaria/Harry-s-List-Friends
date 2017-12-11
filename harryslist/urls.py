@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^about/$', views.about, name='about'),
     url(r'^signup/$', core_views.signup, name='signup'),
     url(r'^ajax/flag_song/$', views.flag_song, name='flag_song'),
+    url(r'^ajax/rate_song/$', views.rate_song, name='rate_song'),
 ]

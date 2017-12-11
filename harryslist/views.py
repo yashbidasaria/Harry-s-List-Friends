@@ -72,7 +72,7 @@ def search(request):
 		cursor.execute(query)
 		artist_tuples = cursor.fetchall()
 
-		query = "SELECT DISTINCT Album.Name, Artist.Name, RateAlbums.Stars FROM Album, Artist, RateAlbums WHERE Album.User_ID=Artist.User_ID AND Album.User_ID = RateAlbums.Owner_User_ID AND Album.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		query = "SELECT DISTINCT Album.Name, Artist.Name, RateAlbums.Stars, Artist.User_ID FROM Album, Artist, RateAlbums WHERE Album.User_ID=Artist.User_ID AND Album.User_ID = RateAlbums.Owner_User_ID AND Album.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
 		cursor.execute(query)
 		album_tuples = cursor.fetchall()
 		#print(tuples)
@@ -131,5 +131,29 @@ def rate_song(request):
 			data = {
 				'exists': 1,
 				'error': "You have already rated the song!!!!!!!"
+			}
+			return JsonResponse(data)
+def rate_album(request):
+	if request.method == 'GET':
+		album_name = request.GET['album_name']
+		artist_id = request.GET['artist_id']
+		rating = request.GET['rating']
+		userid = User.objects.get(username=request.user).pk
+		cursor = connection.cursor()
+		query = "SELECT * FROM RateAlbums WHERE Owner_User_ID="+ "'" + str(artist_id) + "'" + "AND Rater_User_ID=" +  "'" + str(userid) + "'" + " AND Name='"+str(album_name)+"'"
+		cursor.execute(query)
+		tuples = cursor.fetchall()
+		if len(tuples) == 0:
+			new_query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) Values ( "+"'"+str(userid)+"','"+str(album_name)+"','"+str(artist_id)+"',"+str(rating)+ ",'"+ str(datetime.datetime.now()) + "')"
+			print (new_query)
+			cursor.execute(new_query)
+			data = {
+				'exists': 0
+			}
+			return JsonResponse(data)
+		else:
+			data = {
+				'exists': 0,
+				'error': "You have already rated this album."
 			}
 			return JsonResponse(data)

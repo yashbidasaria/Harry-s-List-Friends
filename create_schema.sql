@@ -87,7 +87,7 @@ CREATE TABLE RateAlbums (
   FOREIGN KEY (Name) REFERENCES Album(Name)
   ON DELETE CASCADE,
   FOREIGN KEY (Rater_User_ID) REFERENCES Users(User_ID),
-  FOREIGN KEY (Owner_User_ID) REFERENCES Artists(User_ID)
+  FOREIGN KEY (Owner_User_ID) REFERENCES Artist(User_ID)
   ON DELETE CASCADE
 );
 

@@ -145,7 +145,7 @@ def rate_album(request):
 		cursor.execute(query)
 		tuples = cursor.fetchall()
 		if len(tuples) == 0:
-			new_query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) Values ( "+"'"+str(userid)+"','"+str(album_name)+"','"+str(artist_id)+"',"+str(rating)+ ",'"+ str(datetime.datetime.now()) + "')"
+			new_query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) Values ( "+"'"+str(userid)+"','"+str(artist_id)+"','"+str(album_name)+"',"+str(rating)+ ",'"+ str(datetime.datetime.now()) + "')"
 			print (new_query)
 			cursor.execute(new_query)
 			data = {

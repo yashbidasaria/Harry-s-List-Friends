@@ -1,0 +1,79 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h2> Review Flagged Songs as Admin </h2>
+<h3> Delete the songs that are not to you're liking... supreme leader </h3>
+<div class="table-background">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Song Name</th>
+        <th scope="col">Album Name</th>
+        <th scope="col">Artist Name</th>
+        <th scope="col">Flagged Date</th>
+        <th scope="col">Reviewed Status</th>
+        <th scope="col">Deleted</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in review %}
+      <tr>
+        <td>{{ r.0 }}</td>
+        <td>{{ r.1 }}</td>
+        <td>{{ r.2 }}</td>
+        <td>{{ r.3 }}</td>
+        <td>{{ r.4 }}</td>
+        <td>{{ r.5 }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+<h3>User</h3>
+<div class="table-background">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">User ID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Password (Hash)</th>
+        <th scope="col">admin</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in user %}
+      <tr>
+        <td>{{ r.0 }}</td>
+        <td>{{ r.1 }}</td>
+        <td>{{ r.2 }}</td>
+        <td>{{ r.3 }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+<h3>Artists</h3>
+<div class="table-background">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">User ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in artist %}
+      <tr>
+        <td>{{ r.0 }}</td>
+        <td>{{ r.1 }}</td>
+        <td>{{ r.2 }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+{% endblock %}

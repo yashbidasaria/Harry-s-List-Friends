@@ -83,12 +83,12 @@ CREATE TABLE RateAlbums (
   Name VARCHAR(30) NOT NULL,
   Stars INTEGER NOT NULL,
   Rate_Date DATE NOT NULL,
-  PRIMARY KEY (Rate_Album_ID),
-  FOREIGN KEY (Name) REFERENCES Album(Name)
-  ON DELETE CASCADE,
-  FOREIGN KEY (Rater_User_ID) REFERENCES Users(User_ID),
-  FOREIGN KEY (Owner_User_ID) REFERENCES Artists(User_ID)
-  ON DELETE CASCADE
+  PRIMARY KEY (Rate_Album_ID)
+  --FOREIGN KEY (Name, Owner_User_ID) REFERENCES Album(Name, User_ID)
+  --ON DELETE CASCADE
+  --FOREIGN KEY (Rater_User_ID) REFERENCES Users(User_ID)
+  --FOREIGN KEY (Owner_User_ID) REFERENCES Artist(User_ID)
+  --ON DELETE CASCADE
 );
 
 DROP TABLE RateSongs;
@@ -99,7 +99,7 @@ CREATE TABLE RateSongs (
   Stars INTEGER NOT NULL,
   Rate_Date DATE NOT NULL,
   PRIMARY KEY(Rate_Song_ID),
-  FOREIGN KEY (Rater_User_ID) REFERENCES Users(User_ID),
+  --FOREIGN KEY (Rater_User_ID) REFERENCES Users(User_ID),
   FOREIGN KEY (Song_ID) REFERENCES Song(Song_ID)
   ON DELETE CASCADE
 );

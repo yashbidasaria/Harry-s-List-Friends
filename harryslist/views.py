@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Song, Album, Artist
+from .models import Song, Album, Artist, Review
 from django.db import connection
 
 # Create your views here.
@@ -62,6 +62,28 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+def admin_page(request):
+
+	if request.method == 'GET': # this will be GET now
+		#print(str(song_name))
+		cursor = connection.cursor()
+		review_tuples = []
+		#query = "SELECT DISTINCT Song.Name, Song.Album_Name, Artist.Name, Review.Flagged_Date, Review.Reviewed, Review.Deleted FROM Song, Artist, Review WHERE Song.User_ID=Artist.User_ID AND Song.Song_ID = Review.Song_ID"
+		#cursor.execute(query)
+		#review_tuples = cursor.fetchall()
+		#for r in Review.objects.raw('SELECT Review_ID, Flagged_Date from Review'):
+		#	print (r.Flagged_Date)
+			#review_tuples.append(r)
+
+		user_query = "SELECT id, username, password, is_staff FROM auth_user"
+		cursor.execute(user_query)
+		user_tuples = cursor.fetchall()
+
+		artist_query = "SELECT User_ID, Name, Location FROM Artist"
+		cursor.execute(artist_query)
+		artist_tuples = cursor.fetchall()
+		return render(request,"admin_page.html",{"user":user_tuples, "artist":artist_tuples})
 
 def search(request):
 	if request.method == 'GET': # this will be GET now
@@ -145,10 +167,11 @@ def rate_album(request):
 		userid = User.objects.get(username=request.user).pk
 		cursor = connection.cursor()
 		query = "SELECT * FROM RateAlbums WHERE Owner_User_ID="+ "'" + str(artist_id) + "'" + "AND Rater_User_ID=" +  "'" + str(userid) + "'" + " AND Name='"+str(album_name)+"'"
+		print(query)
 		cursor.execute(query)
 		tuples = cursor.fetchall()
 		if len(tuples) == 0:
-			new_query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) Values ( "+"'"+str(userid)+"','"+str(album_name)+"','"+str(artist_id)+"',"+str(rating)+ ",'"+ str(datetime.datetime.now()) + "')"
+			new_query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) Values ( "+"'"+str(userid)+"','"+str(artist_id)+"','"+str(album_name)+"',"+str(rating)+ ",'"+ str(datetime.datetime.now()) + "')"
 			print (new_query)
 			cursor.execute(new_query)
 			data = {
@@ -157,7 +180,7 @@ def rate_album(request):
 			return JsonResponse(data)
 		else:
 			data = {
-				'exists': 0,
+				'exists': 1,
 				'error': "You have already rated this album."
 			}
 			return JsonResponse(data)

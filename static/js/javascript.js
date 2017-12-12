@@ -43,11 +43,11 @@ $(document).ready(function() {
     //console.log($(this).attr('song_id'))
     //console.log($(this).attr(''))
     var v = $(this).parent().children(0).val()//.attr('value')
-    console.log(v)
+    //console.log(v)
     var album_name = $(this).parent().children(0).attr('album_name');
-    console.log(album_name)
+    //console.log(album_name)
     var artist_id = $(this).parent().children(0).attr('artist_id');
-    console.log(artist_id)
+    //console.log(artist_id)
     $.ajax({
       url: '/ajax/rate_album/',
       data: {
@@ -57,6 +57,7 @@ $(document).ready(function() {
       },
       dataType: 'json',
       success: function (data) {
+        console.log(data.exists)
         if (data.exists == 1) {
             alert("You have already rated the song")
         }

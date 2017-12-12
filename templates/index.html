@@ -49,6 +49,9 @@
           <li><a href= "{% url 'login' %}" >login</a></li>
           <li><a href= "{% url 'logout' %}" >logout</a></li>
           <li><a href= "{% url 'signup' %}" >signup</a></li>
+          {% if user.is_superuser %}
+          <li><a href= "{% url 'admin_page' %}" >ADMIN</a></li>
+          {% endif %}
         </ul>
         <div id="search-bar">
           <form method ="get" action="/search/"class="navbar-form navbar-left" role="search">

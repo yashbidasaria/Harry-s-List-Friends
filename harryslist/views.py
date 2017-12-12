@@ -134,6 +134,7 @@ def rate_song(request):
 				'error': "You have already rated the song!!!!!!!"
 			}
 			return JsonResponse(data)
+
 def rate_album(request):
 	if request.method == 'GET':
 		album_name = request.GET['album_name']

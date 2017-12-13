@@ -34,7 +34,9 @@ h1, h2, h3, h4, h5 {
   -webkit-border-bottom-right-radius: 10px;
 }
 
-#artist-img {
+img {
+  height: 100px;
+  width: auto;
 }
 
 /* center login form */

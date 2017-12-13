@@ -11,7 +11,7 @@ import csv
 # artistName = 8
 # artistLocation = 6
 # year = 17
-
+userIdList = []
 def connect():
     con = sqlite3.connect("data.db")
     return con
@@ -69,13 +69,23 @@ def read_file(cursor):
         #print(i)
         c.execute(query)
 
+    with open ('user_ids.csv') as datafile:
+        reader = csv.reader(datafile)
+        for z in reader:
+            z = str(z)
+            u_id = z[-(len(z)-2):-2]
+            userIdList.append(u_id)
+            print(u_id)
+
+    count = 0
     with open('image_links.csv') as csvDataFile:
         csvReader = csv.reader(csvDataFile)
         for x in csvReader:
             link = str(x)
             src = link[-(len(link)-2):-2]
-            print(src)
-            c.execute('UPDATE Artist SET Image_Src = (?)', (src,))
+            #print(src)
+            c.execute("UPDATE Artist SET Image_Src = (?) WHERE User_ID =" + "'" + str(userIdList[count]) + "'", (src,))
+            count = count + 1
 
 if __name__ == "__main__":
     con = connect()

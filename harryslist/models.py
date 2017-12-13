@@ -34,6 +34,7 @@ class Artist(models.Model):
     Location = models.CharField(max_length=32)
     Most_Popular_Album_Name = models.IntegerField()
     Most_Popular_Song_ID = models.CharField(max_length=32)
+    Image_Src = models.CharField(max_length=100000)
 
     class meta:
         db_table = 'Artist'
@@ -79,9 +80,12 @@ class Review(models.Model):
 
 class RateAlbums(models.Model):
     Rate_Album_ID = models.IntegerField(primary_key = True)
-    Rater_User_ID = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
+    #Rater_User_ID = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
+    Rater_User_ID = models.CharField(max_length=32)
     Owner_User_ID = models.ForeignKey('Artist', on_delete=models.CASCADE)
+    #Owner_User_ID = models.CharField(max_length=32)
     Name = models.ForeignKey('Album', on_delete=models.CASCADE)
+    #Name = models.CharField(max_length=32)
     Stars = models.IntegerField()
     Rate_Date = models.DateField()
 
@@ -90,7 +94,8 @@ class RateAlbums(models.Model):
 
 class RateSongs(models.Model):
     Rate_Song_ID = models.IntegerField(primary_key = True)
-    Rater_User_ID = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
+    #Rater_User_ID = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
+    Rater_User_ID = models.CharField(max_length=32)
     Song_ID = models.ForeignKey('Song', on_delete=models.CASCADE)
     Stars = models.IntegerField()
     Rate_Date = models.DateField()

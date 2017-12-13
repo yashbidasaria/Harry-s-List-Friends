@@ -8,11 +8,19 @@ h1, h2, h3, h4, h5 {
 
 #search-bar {
   float: right;
+}
 
+#search-bar-homepage {
+  width: 450px;
+  margin: 0 auto;
+}
+
+#searchBox-homepage {
+  width: 275px;
+  height: auto;
 }
 
 /* format all tables */
-
 .table {
   width: 90%;
   margin-left: 5%;
@@ -33,6 +41,19 @@ h1, h2, h3, h4, h5 {
   -moz-border-radius-bottomright: 10px;
   -webkit-border-top-right-radius: 10px;
   -webkit-border-bottom-right-radius: 10px;
+}
+
+img {
+  height: 100px;
+  width: auto;
+}
+
+#top-artist-table {
+
+}
+.table-responsive {
+  overflow-y:scroll;
+  height:400px;
 }
 
 /* center login form */

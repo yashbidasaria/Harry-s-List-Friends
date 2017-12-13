@@ -14,10 +14,11 @@
 <h1>and he even rendered it nicely for you!</h1>
 <br>
 <h2>Artist</h2>
-<div class="table-background">
+<div class="table-background table-responsive">
   <table id ="tables" class="table">
     <thead>
       <tr>
+        <th scope="col">Photo</th>
         <th scope="col">Artist Name</th>
         <th scope="col">Location</th>
       </tr>
@@ -25,8 +26,9 @@
     <tbody>
     {% for r in artists %}
       <tr>
-        <td>{{ r.0 }}</td>
+        <td><img class="artist-img" src="{{r.0}}" alt="W3Schools.com"></td>
         <td>{{ r.1 }}</td>
+        <td>{{ r.2 }}</td>
       </tr>
     {% endfor %}
     </tbody>
@@ -34,7 +36,7 @@
 </div>
 <br>
 <h2>Songs</h2>
-<div class="table-background">
+<div class="table-background table-responsive">
   <table id="tables" class="table">
     <thead>
       <tr>
@@ -65,7 +67,7 @@
 </div>
 <br>
 <h2>Albums</h2>
-<div class="table-background">
+<div class="table-background table-responsive">
   <table id="tables" class="table">
     <thead>
       <tr>
@@ -90,7 +92,11 @@
     </tbody>
   </table>
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
 {% else %}
 <a class="login-message" href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
 {% endif %}

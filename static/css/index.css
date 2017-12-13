@@ -8,7 +8,16 @@ h1, h2, h3, h4, h5 {
 
 #search-bar {
   float: right;
+}
 
+#search-bar-homepage {
+  width: 450px;
+  margin: 0 auto;
+}
+
+#searchBox-homepage {
+  width: 275px;
+  height: auto;
 }
 
 /* format all tables */
@@ -37,6 +46,14 @@ h1, h2, h3, h4, h5 {
 img {
   height: 100px;
   width: auto;
+}
+
+#top-artist-table {
+
+}
+.table-responsive {
+  overflow-y:scroll;
+  height:400px;
 }
 
 /* center login form */

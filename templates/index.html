@@ -45,12 +45,12 @@
           <li><a href= "{% url 'top_albums' %}" >Top Albums</a></li>
           <li><a href= "{% url 'top_songs' %}" >Top Songs</a></li>
           <li><a href= "{% url 'about' %}" >About Supreme Leader Harry</a></li>
-          <li><a href= "{% url 'upload_csv' %}" >upload</a></li>
-          <li><a href= "{% url 'login' %}" >login</a></li>
-          <li><a href= "{% url 'logout' %}" >logout</a></li>
-          <li><a href= "{% url 'signup' %}" >signup</a></li>
+          <li><a href= "{% url 'upload_csv' %}" >Upload Content</a></li>
+          <li><a href= "{% url 'login' %}" >Login</a></li>
+          <li><a href= "{% url 'logout' %}" >Logout</a></li>
+          <li><a href= "{% url 'signup' %}" >Signup</a></li>
           {% if user.is_superuser %}
-          <li><a href= "{% url 'admin_page' %}" >ADMIN</a></li>
+          <li><a href= "{% url 'admin_page' %}" >Admin</a></li>
           {% endif %}
         </ul>
         <div id="search-bar">
@@ -61,12 +61,7 @@
         </div>
       </div><!-- /.navbar-collapse -->
 	  </nav>
-		<div class="content container">
-			<div class="row">
-				<div class="col-md-8">
-				</div>
-			</div>
-		</div>
+    <br>
     {% block content %}
     {% endblock %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

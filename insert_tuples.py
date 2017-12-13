@@ -1,6 +1,7 @@
 import pandas
 import sqlite3
 import datetime
+import csv
 
 # songID = 1
 # albumID = 2
@@ -67,6 +68,14 @@ def read_file(cursor):
         #print(query)
         #print(i)
         c.execute(query)
+
+    with open('image_links.csv') as csvDataFile:
+        csvReader = csv.reader(csvDataFile)
+        for x in csvReader:
+            link = str(x)
+            src = link[-(len(link)-2):-2]
+            print(src)
+            c.execute('UPDATE Artist SET Image_Src = (?)', (src,))
 
 if __name__ == "__main__":
     con = connect()

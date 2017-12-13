@@ -12,7 +12,6 @@ h1, h2, h3, h4, h5 {
 }
 
 /* format all tables */
-
 .table {
   width: 90%;
   margin-left: 5%;
@@ -33,6 +32,9 @@ h1, h2, h3, h4, h5 {
   -moz-border-radius-bottomright: 10px;
   -webkit-border-top-right-radius: 10px;
   -webkit-border-bottom-right-radius: 10px;
+}
+
+#artist-img {
 }
 
 /* center login form */

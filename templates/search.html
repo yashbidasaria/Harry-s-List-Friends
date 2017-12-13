@@ -18,6 +18,7 @@
   <table id ="tables" class="table">
     <thead>
       <tr>
+        <th scope="col">Photo</th>
         <th scope="col">Artist Name</th>
         <th scope="col">Location</th>
       </tr>
@@ -25,8 +26,9 @@
     <tbody>
     {% for r in artists %}
       <tr>
-        <td>{{ r.0 }}</td>
+        <td><img class="artist-img" src="{{r.0}}" alt="W3Schools.com"></td>
         <td>{{ r.1 }}</td>
+        <td>{{ r.2 }}</td>
       </tr>
     {% endfor %}
     </tbody>

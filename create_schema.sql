@@ -23,6 +23,7 @@ CREATE TABLE Artist (
   Location VARCHAR(30) NOT NULL,
   Most_Popular_Album_Name VARCHAR(30),
   Most_Popular_Song_ID VARCHAR(30),
+  Image_Src VARCHAR(100000),
   PRIMARY KEY (User_ID),
   FOREIGN KEY (Most_Popular_Song_ID) REFERENCES Song(Song_ID),
   FOREIGN KEY (Most_Popular_Album_Name) REFERENCES Album(Name)

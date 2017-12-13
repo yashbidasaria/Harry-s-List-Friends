@@ -94,7 +94,7 @@ def search(request):
 		cursor.execute(query)
 		song_tuples = cursor.fetchall()
 
-		query = "SELECT DISTINCT Artist.Name, Artist.Location FROM Artist WHERE Artist.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		query = "SELECT DISTINCT Artist.Image_Src, Artist.Name, Artist.Location FROM Artist WHERE Artist.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
 		cursor.execute(query)
 		artist_tuples = cursor.fetchall()
 

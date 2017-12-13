@@ -34,6 +34,7 @@ class Artist(models.Model):
     Location = models.CharField(max_length=32)
     Most_Popular_Album_Name = models.IntegerField()
     Most_Popular_Song_ID = models.CharField(max_length=32)
+    Image_Src = models.CharField(max_length=100000)
 
     class meta:
         db_table = 'Artist'

@@ -75,15 +75,50 @@ def admin_page(request):
 		#for r in Review.objects.raw('SELECT Review_ID, Flagged_Date from Review'):
 		#	print (r.Flagged_Date)
 			#review_tuples.append(r)
-
+		#user table
 		user_query = "SELECT id, username, password, is_staff FROM auth_user"
 		cursor.execute(user_query)
 		user_tuples = cursor.fetchall()
 
-		artist_query = "SELECT User_ID, Name, Location FROM Artist"
+		#artist table
+		artist_query = "SELECT Image_Src, User_ID, Name, Location FROM Artist"
 		cursor.execute(artist_query)
 		artist_tuples = cursor.fetchall()
-		return render(request,"admin_page.html",{"user":user_tuples, "artist":artist_tuples})
+
+		#song table
+		song_query = "SELECT Song_ID, User_ID, Album_Name, Name, Plays FROM Song"
+		cursor.execute(song_query)
+		song_tuples = cursor.fetchall()
+
+		#album table
+		album_query = "SELECT User_ID, Name, Year FROM Album"
+		cursor.execute(album_query)
+		album_tuples = cursor.fetchall()
+
+		#admin table
+		admin_query = "SELECT Admin_ID, Admin_Email, Name FROM Admin"
+		cursor.execute(admin_query)
+		admin_tuples = cursor.fetchall()
+
+		#review table
+		review_query = "SELECT Review_ID, Song_ID, Admin_ID, Deleted, Reviewed, Flagged_Date, Review_Date FROM Review"
+		cursor.execute(review_query)
+		review_tuples = cursor.fetchall()
+
+
+		#rate albums table
+		ratealbums_query = "SELECT Rate_Album_ID, Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date FROM RateAlbums"
+		cursor.execute(ratealbums_query)
+		ratealbums_tuples = cursor.fetchall()
+
+
+		#rate songs table
+		#ratesongs_query = "SELECT Rate_Song_ID, Rater_User_ID, Name, Stars, Rate_Date FROM RateSongs"
+		ratesongs_query = "SELECT * FROM RateSongs"
+		cursor.execute(ratesongs_query)
+		ratesongs_tuples = cursor.fetchall()
+
+		return render(request,"admin_page.html",{"user":user_tuples, "artist":artist_tuples, "song":song_tuples, "album":album_tuples, "admin":admin_tuples,"review":review_tuples, "ratealbum":ratealbums_tuples, "ratesong":ratesongs_tuples})
 
 def search(request):
 	if request.method == 'GET': # this will be GET now

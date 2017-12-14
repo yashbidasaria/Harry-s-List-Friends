@@ -1,5 +1,4 @@
-import datetime
-import pandas
+import datetime, pandas, logging
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
@@ -10,6 +9,7 @@ from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Song, Album, Artist, Review
+from django.contrib.auth.decorators import permission_required
 from django.db import connection
 
 # Create your views here.
@@ -82,22 +82,22 @@ def admin_page(request):
 
 		#artist table
 		artist_query = "SELECT Image_Src, User_ID, Name, Location FROM Artist"
-		cursor.execute(artist_query)
+		#cursor.execute(artist_query)
 		artist_tuples = cursor.fetchall()
 
 		#song table
 		song_query = "SELECT Song_ID, User_ID, Album_Name, Name, Plays FROM Song"
-		cursor.execute(song_query)
+		#cursor.execute(song_query)
 		song_tuples = cursor.fetchall()
 
 		#album table
 		album_query = "SELECT User_ID, Name, Year FROM Album"
-		cursor.execute(album_query)
+		#cursor.execute(album_query)
 		album_tuples = cursor.fetchall()
 
 		#admin table
 		admin_query = "SELECT Admin_ID, Admin_Email, Name FROM Admin"
-		cursor.execute(admin_query)
+		#cursor.execute(admin_query)
 		admin_tuples = cursor.fetchall()
 
 		#review table
@@ -108,14 +108,14 @@ def admin_page(request):
 
 		#rate albums table
 		ratealbums_query = "SELECT Rate_Album_ID, Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date FROM RateAlbums"
-		cursor.execute(ratealbums_query)
+		#cursor.execute(ratealbums_query)
 		ratealbums_tuples = cursor.fetchall()
 
 
 		#rate songs table
 		#ratesongs_query = "SELECT Rate_Song_ID, Rater_User_ID, Name, Stars, Rate_Date FROM RateSongs"
 		ratesongs_query = "SELECT * FROM RateSongs"
-		cursor.execute(ratesongs_query)
+		#cursor.execute(ratesongs_query)
 		ratesongs_tuples = cursor.fetchall()
 
 		return render(request,"admin_page.html",{"user":user_tuples, "artist":artist_tuples, "song":song_tuples, "album":album_tuples, "admin":admin_tuples,"review":review_tuples, "ratealbum":ratealbums_tuples, "ratesong":ratesongs_tuples})
@@ -194,6 +194,7 @@ def rate_song(request):
 				'error': "You have already rated the song!!!!!!!"
 			}
 			return JsonResponse(data)
+
 def rate_album(request):
 	if request.method == 'GET':
 		album_name = request.GET['album_name']
@@ -220,26 +221,25 @@ def rate_album(request):
 			}
 			return JsonResponse(data)
 
-def upload_csv(request):
-	data = {}
-	if "GET" == request.method:
-		return render(request, "upload_csv.html", data)
+def upload_content(request):
+	# do all the csv uploading
 	try:
+		print("in try")
 		csv_file = request.FILES["csv_file"]
 		if not csv_file.name.endswith('.csv'):
-			messages.error(request,'File is not CSV type')
+			#messages.error(request,'File is not CSV type')
 			return HttpResponseRedirect(reverse("upload_csv"))
         #if file is too large, return
 		if csv_file.multiple_chunks():
-			messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+			#messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
 			return HttpResponseRedirect(reverse("upload_csv"))
 
 		df = pandas.read_csv(csv_file, encoding = "latin1")
-
+		c = connection.cursor()
         #lines = file_data.split("\n")
-
+		print(len(df))
 		# need to change this to insert into db instead
-		for i in len(df.index):
+		for i in range(0, len(df.index)):
 	        # get songID and userID
 			songID = df['SongID'][i]
 			artistID = df['ArtistID'][i]
@@ -253,20 +253,34 @@ def upload_csv(request):
 			year = df['Year'][i]
 			plays = 20*(i%5 + 1)
 			# insert into song, artist and album tables
-			song_tuple = (songID, artistID, albumName, songName, plays)
+			song_tuple = (str(songID), str(artistID), str(albumName), str(songName), str(plays))
 			artist_tuple = (artistID, artistName, location)
 			album_tuple = (artistID, albumName, int(year))
 			rateAlbums_tuple = (artistID, artistID, albumName, 5, datetime.datetime.now(), albumName)
 			rateSongs_tuple = (artistID, songID, 5, datetime.datetime.now())
-			# song
-			c.execute('INSERT OR IGNORE INTO Song (Song_ID, User_ID, Album_Name, Name, Plays) VALUES (?, ?, ?, ?, ?)', song_tuple)
-			# artist
-			c.execute('INSERT OR IGNORE INTO Artist (User_ID, Name, Location) VALUES (?, ?, ?)', artist_tuple)
-			# album
-			#c.execute('INSERT OR IGNORE INTO Album (User_ID, Name, Year) VALUES (?, ?, ?)', album_tuple)
-			query = "INSERT INTO Album (User_ID, Name, Year) SELECT "+"'"+artistID+"','"+albumName+"',"+str(year)+ " WHERE NOT EXISTS (SELECT 1 FROM Album WHERE Name = '"+albumName+"')"
-			c.execute(query)
-			# rate song
+
+			user_query = "INSERT OR IGNORE INTO auth_user (username, first_name, Password) Values "+"('"+str(artistID)+"','"+str(artistName)+"','"+str(location)+ "')"
+			c.execute(user_query)
+			print ("added user")
+			# artist first
+			artist_query = "INSERT OR IGNORE INTO Artist (User_ID, Name, Location) Values "+"('"+str(artistID)+"','"+str(artistName)+"','"+str(location)+ "')"
+			print(artist_query)
+
+			c.execute(artist_query)
+			print("after artist query")
+
+			#album second
+			#only allowing one time uploads for albums
+			#query = "INSERT INTO Album (User_ID, Name, Year) SELECT "+"'"+artistID+"','"+albumName+"',"+str(year)+ " WHERE NOT EXISTS (SELECT 1 FROM Album WHERE Name = '"+albumName+"')"
+			album_query = "INSERT OR IGNORE INTO Album (User_ID, Name, Year) Values "+"('"+str(artistID)+"','"+str(albumName)+"','"+str(year)+ "')"
+			c.execute(album_query)
+			print("after album query")
+
+			# song third
+			song_query = "INSERT OR IGNORE INTO Song (Song_ID, User_ID, Album_Name, Name, Plays) Values "+"('"+str(songID)+"','"+str(artistID)+"','"+str(albumName)+"','" +str(songName)+"','"+ str(plays) + "')"
+			c.execute(song_query)
+			print("after song query")
+			# rate song after the songs exist
 			c.execute('INSERT OR IGNORE INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES (?,?,?,?)', rateSongs_tuple)
 			# rate album
 			query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) SELECT "+"'"+artistID+"','"+artistID+"','"+albumName+"',"+str(5)+",'"+str(datetime.datetime.now())+ "' WHERE NOT EXISTS (SELECT 1 FROM RateAlbums WHERE Name = '"+albumName+"')"
@@ -284,6 +298,12 @@ def upload_csv(request):
 
 	except Exception as e:
 		logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
-		messages.error(request,"Unable to upload file. "+repr(e))
+		#messages.error(request,"Unable to upload file. "+repr(e))
+	return HttpResponseRedirect(reverse("homepage"))
+	#return render(request, 'homepage.html')
 
-	return HttpResponseRedirect(reverse("upload_csv"))
+def upload_csv(request):
+	data = {}
+	if "GET" == request.method:
+		print("test")
+		return render(request, "upload_csv.html", data)

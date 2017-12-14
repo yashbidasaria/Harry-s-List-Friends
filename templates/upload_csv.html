@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<form action="/upload/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+<form action="/upload_content/" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 <div class="form-group">
     <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
@@ -13,7 +13,7 @@
 </div>
 <div class="form-group">
     <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-         <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+         <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;" action="/upload_content/"></span>Upload </button>
     </div>
 </div>
 </form>

@@ -283,7 +283,7 @@ def upload_content(request):
 			# rate song after the songs exist
 			#c.execute('INSERT OR IGNORE INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES (?,?,?,?)', rateSongs_tuple)
 
-			rate_song_query = "INSERT OR IGNORE INTO (RateSongs Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES ("+"'"+str(artistID)+"','"+str(songID)+"',"+str(5)+",'"+str(datetime.datetime.now())+"')"
+			rate_song_query = "INSERT OR IGNORE INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES ("+"'"+str(artistID)+"','"+str(songID)+"',"+str(5)+",'"+str(datetime.datetime.now())+"')"
 			print(rate_song_query)
 			c.execute(rate_song_query)
 

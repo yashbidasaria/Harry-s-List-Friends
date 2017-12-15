@@ -4,13 +4,13 @@ from django.contrib.auth import get_user_model
 UserModel = get_user_model()
 
 #get the data from csv
-with open('mock_users.csv') as csvDataFile:
+with open('MOCK_DATA.csv') as csvDataFile:
     csvReader = csv.reader(csvDataFile)
     for row in csvReader:
-        user_name = str(row[-(len(row)-2):-2])
+        print(row)
         pass_word = 'adeladel'
-        if not UserModel.objects.filter(username=user_name).exists():
-            user=UserModel.objects.create_user(user_name, password = pass_word)
+        if not UserModel.objects.filter(username=row).exists():
+            user=UserModel.objects.create_user(row, password = pass_word)
             user.save()
 
 

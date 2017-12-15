@@ -125,15 +125,15 @@ def search(request):
 		search_input =  request.GET['q'] # do some research what it does
 		#print(str(song_name))
 		cursor = connection.cursor()
-		query = "SELECT DISTINCT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars, Song.Song_ID FROM Song, Artist, RateSongs WHERE Song.User_ID=Artist.User_ID AND Song.Song_ID = RateSongs.Song_ID AND Song.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		query = "SELECT DISTINCT Song.Name, Song.Album_Name, Artist.Name, RateSongs.Stars, Song.Song_ID FROM Song, Artist, RateSongs WHERE Song.User_ID=Artist.User_ID AND Song.Song_ID = RateSongs.Song_ID AND Song.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 30"
 		cursor.execute(query)
 		song_tuples = cursor.fetchall()
 
-		query = "SELECT DISTINCT Artist.Image_Src, Artist.Name, Artist.Location FROM Artist WHERE Artist.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		query = "SELECT DISTINCT Artist.Image_Src, Artist.Name, Artist.Location FROM Artist WHERE Artist.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 30"
 		cursor.execute(query)
 		artist_tuples = cursor.fetchall()
 
-		query = "SELECT DISTINCT Album.Name, Artist.Name, RateAlbums.Stars, Artist.User_ID FROM Album, Artist, RateAlbums WHERE Album.User_ID=Artist.User_ID AND Album.User_ID = RateAlbums.Owner_User_ID AND Album.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 15"
+		query = "SELECT DISTINCT Album.Name, Artist.Name, RateAlbums.Stars, Artist.User_ID FROM Album, Artist, RateAlbums WHERE Album.User_ID=Artist.User_ID AND Album.User_ID = RateAlbums.Owner_User_ID AND Album.Name LIKE "+"'%" + str(search_input) + "%' LIMIT 30"
 		cursor.execute(query)
 		album_tuples = cursor.fetchall()
 		#print(tuples)

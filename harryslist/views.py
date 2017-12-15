@@ -281,11 +281,16 @@ def upload_content(request):
 			c.execute(song_query)
 			print("after song query")
 			# rate song after the songs exist
-			c.execute('INSERT OR IGNORE INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES (?,?,?,?)', rateSongs_tuple)
-			# rate album
-			query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) SELECT "+"'"+artistID+"','"+artistID+"','"+albumName+"',"+str(5)+",'"+str(datetime.datetime.now())+ "' WHERE NOT EXISTS (SELECT 1 FROM RateAlbums WHERE Name = '"+albumName+"')"
-			c.execute(query)
+			#c.execute('INSERT OR IGNORE INTO RateSongs (Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES (?,?,?,?)', rateSongs_tuple)
 
+			rate_song_query = "INSERT OR IGNORE INTO (RateSongs Rater_User_ID, Song_ID, Stars, Rate_Date) VALUES ("+"'"+str(artistID)+"','"+str(songID)+"',"+str(5)+",'"+str(datetime.datetime.now())+"')"
+			print(rate_song_query)
+			c.execute(rate_song_query)
+
+			# rate album
+			query = "INSERT INTO RateAlbums (Rater_User_ID, Owner_User_ID, Name, Stars, Rate_Date) SELECT "+"'"+str(artistID)+"','"+str(artistID)+"','"+str(albumName)+"',"+str(5)+",'"+str(datetime.datetime.now())+ "' WHERE NOT EXISTS (SELECT 1 FROM RateAlbums WHERE Name = '"+albumName+"')"
+			c.execute(query)
+			'''
 			try:
 				form = EventsForm(data_dict)
 				if form.is_valid():
@@ -293,14 +298,14 @@ def upload_content(request):
 				else:
 					logging.getLogger("error_logger").error(form.errors.as_json())
 			except Exception as e:
-				logging.getLogger("error_logger").error(form.errors.as_json())
+				logging.getLogger("error_logger").erro2r(form.errors.as_json())
 				pass
-
+				'''
 	except Exception as e:
 		logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
 		#messages.error(request,"Unable to upload file. "+repr(e))
-	return HttpResponseRedirect(reverse("homepage"))
-	#return render(request, 'homepage.html')
+	#return HttpResponseRedirect(reverse("homepage"))
+	return render(request, 'upload_content.html')
 
 def upload_csv(request):
 	data = {}

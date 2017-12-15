@@ -3,6 +3,9 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+{% if user.is_authenticated%}
+<a class="login-message" href= "{%url 'logout'%}">Whoops! you are already logged in! click here to logout if you would like to login to another user!</a>
+{% else %}
 <div class="login-background">
   <div class="login">
     <h2>Login</h2>
@@ -13,4 +16,5 @@
     </form>
   </div>
 </div>
+{% endif %}
 {% endblock %}

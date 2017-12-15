@@ -30,7 +30,8 @@ class Basic(models.Model):
         db_table = 'Basic'
 
 class Artist(models.Model):
-    User_ID = models.ForeignKey('Users',on_delete=models.CASCADE)
+    #User_ID = models.ForeignKey('Users',on_delete=models.CASCADE)
+    User_ID = models.CharField(max_length=32, primary_key = True)
     Location = models.CharField(max_length=32)
     Most_Popular_Album_Name = models.IntegerField()
     Most_Popular_Song_ID = models.CharField(max_length=32)
@@ -42,7 +43,8 @@ class Artist(models.Model):
 class Song(models.Model):
     Song_ID = models.CharField(max_length=32, primary_key = True)
     User_ID = models.ForeignKey('Users',on_delete=models.CASCADE)
-    Album_Name = models.ForeignKey('Album', on_delete=models.CASCADE)
+    #Album_Name = models.ForeignKey('Album', on_delete=models.CASCADE)
+    Album_Name = models.CharField(max_length=32)
     Name = models.CharField(max_length=32)
     Plays = models.IntegerField()
 
@@ -50,7 +52,8 @@ class Song(models.Model):
         db_table = 'Song'
 
 class Album(models.Model):
-    User_ID = models.ForeignKey('Artist', on_delete=models.CASCADE)
+    #User_ID = models.ForeignKey('Artist', on_delete=models.CASCADE)
+    User_ID = models.CharField(max_length=32)
     Name = models.CharField(max_length=32)
     Year = models.IntegerField()
 

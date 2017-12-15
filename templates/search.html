@@ -7,8 +7,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'js/javascript.js' %}"></script>
 
-
-
 {% if user.is_authenticated %}
 <h1>Supreme Leader Adel has found what you're looking for...</h1>
 <h1>and he even rendered it nicely for you!</h1>
@@ -26,7 +24,7 @@
     <tbody>
     {% for r in artists %}
       <tr>
-        <td><img class="artist-img" src="{{r.0}}" alt="W3Schools.com"></td>
+        <td><img class="artist-img" src="{{r.0}}" alt=""></td>
         <td>{{ r.1 }}</td>
         <td>{{ r.2 }}</td>
       </tr>

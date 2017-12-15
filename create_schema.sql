@@ -24,10 +24,10 @@ CREATE TABLE Artist (
   Most_Popular_Album_Name VARCHAR(30),
   Most_Popular_Song_ID VARCHAR(30),
   Image_Src VARCHAR(100000),
-  PRIMARY KEY (User_ID),
-  FOREIGN KEY (Most_Popular_Song_ID) REFERENCES Song(Song_ID),
-  FOREIGN KEY (Most_Popular_Album_Name) REFERENCES Album(Name)
-  ON DELETE CASCADE
+  PRIMARY KEY (User_ID)
+  --FOREIGN KEY (Most_Popular_Song_ID) REFERENCES Song(Song_ID),
+  --FOREIGN KEY (Most_Popular_Album_Name) REFERENCES Album(Name)
+  --ON DELETE CASCADE
 );
 
 DROP TABLE Song;
@@ -37,10 +37,10 @@ CREATE TABLE Song (
   Album_Name VARCHAR(30) NOT NULL,
   Name VARCHAR(30) NOT NULL,
   Plays INTEGER NOT NULL,
-  PRIMARY KEY(Song_ID),
-  FOREIGN KEY (User_ID) REFERENCES Artist (User_ID)
-  FOREIGN KEY (Album_Name) REFERENCES Album (Name)
-  ON DELETE CASCADE
+  PRIMARY KEY(Song_ID)
+  --FOREIGN KEY (User_ID) REFERENCES Artist (User_ID)
+  --FOREIGN KEY (Album_Name) REFERENCES Album (Name)
+  --ON DELETE CASCADE
 );
 
 DROP TABLE Album;
@@ -48,9 +48,9 @@ CREATE TABLE Album (
   User_ID VARCHAR(30) NOT NULL,
   Name VARCHAR(30) NOT NULL,
   Year INTEGER NOT NULL,
-  PRIMARY KEY(User_ID, Name),
-  FOREIGN KEY(User_ID) REFERENCES Artist(User_ID)
-  ON DELETE CASCADE
+  PRIMARY KEY(User_ID, Name)
+  --FOREIGN KEY(User_ID) REFERENCES Artist(User_ID)
+  --ON DELETE CASCADE
 );
 
 DROP TABLE Admin;

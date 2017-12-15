@@ -4,4 +4,7 @@
 /harryslist/__pycache__/views.cpython-36.pyc
 /harryslist/migrations/0001_initial.py
 /harryslist/migrations/__pycache__/0001_initial.cpython-36.pyc
-/harryslist/migrations/0001_initial.py
+/harryslist/migrations/0001_initial.pyA
+venv
+*.pyc
+.env

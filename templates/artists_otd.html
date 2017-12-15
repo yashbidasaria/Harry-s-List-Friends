@@ -3,25 +3,29 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<h1>Browse our artists of the day</h1>
-<div class="table-background table-responsive">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Artist Name</th>
-        <th scope="col">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for r in artist %}
-      <tr>
-        <td>{{ r.0 }}</td>
-        <td>{{ r.1 }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
+  {% if user.username != 'harry' %}
+  <h1>Browse our artists of the day</h1>
+  <div class="table-background table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Artist Name</th>
+          <th scope="col">Location</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for r in artist %}
+        <tr>
+          <td>{{ r.0 }}</td>
+          <td>{{ r.1 }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <h1> You're the restricted User! No access to artist of the day for you! </h1>
+  {% endif %}
 {% else %}
 <a class="login-message" href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
 {% endif %}

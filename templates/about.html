@@ -1,8 +1,12 @@
 {% extends 'index.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-<h1 class="title"> ABOUT HARRYY</h1>
+<h1 class="title">About Harry's List</h1>
+<br>
+<h2 class="title">Harry’s List is a novel attempt at implementing a song and album review application developed by three undergraduate CS students - Yash Bidasaria, Evan Dweck and Zach Harrison.</h2><h2>  The application is open source with the source code available on github at https://github.com/yashbidasaria/Harry-s-List-Friends</h2>
+<br>
 {% else %}
+<br>
 <a class="login-message" href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
 {% endif %}
 

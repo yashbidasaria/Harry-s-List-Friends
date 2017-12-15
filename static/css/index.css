@@ -1,6 +1,8 @@
 h1, h2, h3, h4, h5 {
     color: #595d63;
     text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 
@@ -116,4 +118,8 @@ img {
 /* center must login message*/
 .login-message {
   font-size: 3.0em;
+}
+
+.rater_box {
+  margin: 10 10 10 10;
 }

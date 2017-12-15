@@ -56,7 +56,6 @@
 	  </nav>
     <br>
 
-{% if user.is_authenticated %}
 <h1 class="title">Welcome to Harry's List!</h1>
 <h1 class="title">Search for your favorite songs, artists or albums.</h1>
 <h1 class="title">Rate your favorite (and least favorite) songs!</h1>
@@ -69,6 +68,3 @@
     </form>
   </div>
 </div>
-{% else %}
-<a class="login-message" href= "{% url 'login' %}" >Oops! you must be logged in to view this content. click here to login!</a>
-{% endif %}
